@@ -1,15 +1,13 @@
 var express = require("express");
-var logger = require("morgan");
 var mongoose = require("mongoose");
 var axios = require("axios");
 var cheerio = require("cheerio");
 var exphbs = require("express-handlebars");
 
-var db = require("./models");
 var app = express();
 var PORT = process.env.PORT || 8080;
-
-app.use(logger("dev"));
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongolines";
+var routes = require("./routes/index.js");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -20,11 +18,10 @@ app.set("view engine", "handlebars");
 
 app.set("views", "./views");
 
-require("./routes")(app);
+app.use("/", routes);
+app.use(require("./routes/index.js"));
 
-mongoose.connect("mongodb://localhost/unit18Populater", {
-    useNewUrlParser: true
-});
+mongoose.connect(MONGODB_URI);
 
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");
