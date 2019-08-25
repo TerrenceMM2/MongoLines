@@ -2,6 +2,6 @@ var Article = require('../models/Article');
 
 module.exports = {
     get: (req, res) => {
-        res.send("You've search for articles");
+        res.render("index", { data: "You've searched for articles." });
     }
 };

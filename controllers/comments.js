@@ -2,6 +2,6 @@ var Comment = require('../models/Comment');
 
 module.exports = {
     get: (req, res) => {
-        res.send("You've search for comments");
+        res.render("index", { data: "You've searched for comments." });
     }
 };
