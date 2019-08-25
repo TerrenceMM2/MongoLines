@@ -1,0 +1,13 @@
+.card-img-top {
+    width: initial;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.card-img-top-mod {
+    margin: 1rem auto 0 auto;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-radius: 50%;
+}
