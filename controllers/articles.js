@@ -26,6 +26,9 @@ module.exports = {
             });
 
             Article.create(results).then(function(data) {
+                res.locals.metaTags = {
+                    title: "MongoLines | Results"
+                  };
                 res.status(200).render("results", {data: data, count: results.length});
             }).catch(function(err) {
                 res.status(500).json(err);
