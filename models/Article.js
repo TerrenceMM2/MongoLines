@@ -4,7 +4,10 @@ var Schema = mongoose.Schema;
 var ArticleSchema = new Schema ({
     title: String,
     summary: String,
-    articleUrl: String,
+    articleUrl: {
+      type: String,
+      unique: true
+    },
     photoUrl: String,
     comment: {
         type: Schema.Types.ObjectId,

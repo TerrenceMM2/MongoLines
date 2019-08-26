@@ -1,3 +1,51 @@
+body {
+    font-family: 'Hepta Slab', serif;
+    background-color: #222;
+    color: white;
+}
+
+h1 {
+    font-family: 'Marcellus', serif;
+}
+
+h5 {
+    font-family: 'Hepta Slab', serif;
+    font-weight: 700;
+}
+
+hr {
+    background-color: white;
+}
+
+.modal {
+    color: black;
+}
+
+.home-background {
+    background-image: url("../images/background.png");
+    height: 100vh;
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 5rem;
+}
+
+.jumbotron {
+    margin: 0;
+    width: 100%;
+    background-color: rgb(255,255,255,0.8);
+}
+
+.card {
+    background-color: #222;
+    border-color: #DDD;
+}
+
+.jumbotron-mod {
+    background-color: #222;
+}
+
 .card-img-top {
     width: initial;
     max-width: 100%;
