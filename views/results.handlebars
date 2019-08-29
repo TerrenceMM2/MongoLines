@@ -44,7 +44,7 @@
 <script>
   $(document).ready(function () {
 
-    $("#article-count-modal").modal("show");
+    {{!-- $("#article-count-modal").modal("show"); --}}
 
     var images = $(".card-img-top");
 
@@ -54,15 +54,21 @@
       };
     };
 
-    $(".delete-article").on("click", function(){
+    $("body").on("click", ".delete-article" , function(){
+
       var id = $(this).attr("data-id");
 
       $.ajax({
-        url: "/article/delete/" + id,
-        method: "DELETE"
+        url: "/article/delete",
+        method: "DELETE",
+        data: {
+          data: id
+        }
       }).then(function(response) {
         console.log(response);
+        window.location.href = "/article";
       })
+
     })
 
   })
