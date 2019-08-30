@@ -59,14 +59,14 @@
       var id = $(this).attr("data-id");
 
       $.ajax({
-        url: "/article/delete",
+        url: "/articles/delete",
         method: "DELETE",
         data: {
           data: id
         }
       }).then(function(response) {
         console.log(response);
-        window.location.href = "/article";
+        window.location.href = "/articles";
       })
 
     })

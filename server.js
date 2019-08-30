@@ -21,7 +21,7 @@ app.set("views", "./views");
 app.use("/", routes);
 app.use(require("./routes/index.js"));
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true }, );
 
 app.listen(PORT, function () {
     console.log("App running on port " + PORT + "!");

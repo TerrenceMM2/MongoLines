@@ -9,10 +9,10 @@ var ArticleSchema = new Schema ({
       unique: true
     },
     photoUrl: String,
-    comment: {
+    comments: [{
         type: Schema.Types.ObjectId,
         ref: "Comment"
-      }
+      }]
 });
 
 var Article = mongoose.model("Article", ArticleSchema);

@@ -8,6 +8,20 @@ body {
     color: white;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #222;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #DDD;
+    border-radius: 10px;
+    -webkit-transition: color 0.25s ease;
+}
+
 h1 {
     font-family: 'Marcellus', serif;
 }
@@ -17,7 +31,7 @@ h5 {
     font-weight: 700;
 }
 
-hr {
+.jumbotron-mod > hr {
     background-color: white;
 }
 
