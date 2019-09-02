@@ -31,6 +31,28 @@ h5 {
     font-weight: 700;
 }
 
+a, a:hover {
+    text-decoration: none;
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.error-title {
+    margin-bottom: 3rem;
+    font-size: 3rem;
+}
+
+.error-message {
+    margin-top: 3rem;
+    font-size: 2rem;
+}
+
 .jumbotron-mod > hr {
     background-color: white;
 }

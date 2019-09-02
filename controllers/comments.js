@@ -4,12 +4,19 @@ var cheerio = require("cheerio");
 var axios = require("axios");
 
 module.exports = {
-    get: function (req, res) {
+    all: function (req, res) {
         Comment.find({}).then(function (data) {
             res.json(data).status(200);
             // res.render("comment", {
             //     data
             // });
+        }).catch(function (err) {
+            res.status(500).json(err);
+        })
+    },
+    get: function (req, res) {
+        Article.findById(req.params.id).then(function(data){
+            res.render("comment", data);
         }).catch(function (err) {
             res.status(500).json(err);
         })

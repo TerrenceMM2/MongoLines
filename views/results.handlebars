@@ -1,6 +1,6 @@
 <div class="jumbotron jumbotron-mod">
   <h1 class="display-4">MongoLines</h1>
-  <p class="lead">Scrapping today's headlines in Mongo fashion</p>
+  <p class="lead">Scraping today's headlines in Mongo fashion</p>
   <hr class="my-4">
 </div>
 
@@ -25,6 +25,35 @@
     </div>
   </div>
 
+  <div class="modal fade" id="article-comment-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="comment-modal-title"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+        <div class="form-group">
+          <label for="comment-body">Comment Body</label>
+          <textarea type="text" class="form-control" id="comment-body"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="comment-author">Comment Author</label>
+          <input type="text" class="form-control" id="comment-author">
+        </div>
+      </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="submit-comment" class="btn btn-primary">Comment</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="card-columns">
     {{#each data}}
     <div class="card">
@@ -33,7 +62,8 @@
         <h5 class="card-title">{{title}}</h5>
         <p class="card-text">{{summary}}</p>
         <a href={{articleUrl}} class="btn btn-primary" target="_blank">Read</a>
-        <button data-id="{{_id}}" class="delete-article btn btn-primary">Delete</a>
+        <button data-id="{{_id}}" class="delete-article btn btn-primary">Delete</button>
+        <button data-id="{{_id}}" class="comment-article btn btn-primary" role="button">Comment</a>
       </div>
     </div>
     {{/each}}
@@ -69,7 +99,37 @@
         window.location.href = "/articles";
       })
 
-    })
+    });
+
+    $("body").on("click", ".comment-article" , function(){
+
+      var id = $(this).attr("data-id");
+      var articleTitle = $(this).siblings(".card-title").text();
+      console.log(articleTitle);
+      $(".comment-modal-title").text(articleTitle);
+
+      $("#article-comment-modal").modal("show");
+
+    });
+
+    $("body").on("click", "#submit-comment" , function(){
+
+      var id = $(this).attr("data-id");
+      var commentBody = $("#comment-body").val().trim();
+      var commentAuthor = $("#comment-author").val().trim();
+      
+      $.ajax({
+        url: "/comment/" + ic,
+        method: "DELETE",
+        data: {
+          data: id
+        }
+      }).then(function(response) {
+        console.log(response);
+        window.location.href = "/articles";
+      })
+
+    });
 
   })
 </script>
