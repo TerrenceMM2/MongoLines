@@ -36,20 +36,23 @@
         </div>
         <div class="modal-body">
           <form>
-        <div class="form-group">
-          <label for="comment-body">Comment Body</label>
-          <textarea type="text" class="form-control" id="comment-body"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="comment-author">Comment Author</label>
-          <input type="text" class="form-control" id="comment-author">
-        </div>
-      </form>
+            <div class="form-group">
+              <label for="comment-body">Comment Body</label>
+              <textarea type="text" class="form-control" id="comment-body"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="comment-author">Comment Author</label>
+              <input type="text" class="form-control" id="comment-author">
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" id="submit-comment" class="btn btn-primary">Comment</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>
+        <div class="modal-body comment-table">
+            <h6>Comments</h6> 
+          </div>
       </div>
     </div>
   </div>
@@ -105,10 +108,35 @@
 
       var id = $(this).attr("data-id");
       var articleTitle = $(this).siblings(".card-title").text();
-      console.log(articleTitle);
       $(".comment-modal-title").text(articleTitle);
 
-      $("#article-comment-modal").modal("show");
+      $.ajax({
+        url: "/articles/" + id,
+        method: "get",
+      }).then(function(response) {
+        var commentArray = response.comments;
+        comments = [];
+
+        $.when(
+          commentArray.forEach(function(comment){
+            $.get("/comment/" + comment, function(data) {
+              comments.push(data);
+            })
+          }
+        )).then(function() {
+          comments.forEach(function(comment) {
+            var commentContainer = $("<div>").addClass("comment-container");
+            var commentBody = $("<p>").text(comment.body);
+            var commentAuthor = $("<small>").text("By: " + comment.createdBy);
+            var commentDate = $("<small>").text(" @ " + comment.createdAt);
+            var commentDelete = $("<i>").addClass("fas fa-trash-alt float-right").attr("data-id", comment._id);
+            commentContainer.append(commentBody, commentAuthor, commentDate, commentDelete);
+            $(".comment-table").append(commentContainer);
+          })
+        })
+
+        $("#article-comment-modal").modal("show");
+      })
 
     });
 
@@ -119,13 +147,12 @@
       var commentAuthor = $("#comment-author").val().trim();
       
       $.ajax({
-        url: "/comment/" + ic,
-        method: "DELETE",
+        url: "/comment/" + id,
+        method: "POST",
         data: {
           data: id
         }
       }).then(function(response) {
-        console.log(response);
         window.location.href = "/articles";
       })
 

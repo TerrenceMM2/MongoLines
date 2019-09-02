@@ -15,8 +15,8 @@ module.exports = {
         })
     },
     get: function (req, res) {
-        Article.findById(req.params.id).then(function(data){
-            res.render("comment", data);
+        Comment.findById(req.params.id).then(function(data){
+            res.json(data).status(200);
         }).catch(function (err) {
             res.status(500).json(err);
         })

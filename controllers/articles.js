@@ -8,11 +8,17 @@ module.exports = {
             res.locals.metaTags = {
                 title: "MongoLines | Articles"
             };
-            // res.json(data).status(200);
             res.render("results", {
                 data
             });
         }).catch(function (err) {
+            res.status(500).send(err);
+        })
+    },
+    find: function(req, res) {
+        Article.findById(req.params.id).then(function(data) {
+            res.json(data).status(200);
+        }).catch(function(err) {
             res.status(500).send(err);
         })
     },

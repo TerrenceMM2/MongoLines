@@ -61,6 +61,20 @@ a, a:hover {
     color: black;
 }
 
+.comment-table {
+    border-top: 1px solid #dee2e6;
+}
+
+.comment-container {
+    border: solid 1px #dee2e6;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.comment-container > p {
+    margin: 0;
+}
+
 .home-background {
     background-image: url("../images/background.png");
     height: 100vh;
