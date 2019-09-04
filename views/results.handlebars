@@ -6,25 +6,6 @@
 
 <div class="container">
 
-  <div class="modal fade" id="article-count-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Success!</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>{{count}} articles were added!</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="modal fade" id="article-comment-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -77,8 +58,6 @@
 <script>
   $(document).ready(function () {
 
-    {{!-- $("#article-count-modal").modal("show"); --}}
-
     var images = $(".card-img-top");
 
     for (var i = 0; i < images.length; i++) {
@@ -106,25 +85,18 @@
 
     $("body").on("click", ".comment-article" , function(){
 
+      $(".comment-table").empty();
+
       var id = $(this).attr("data-id");
       var articleTitle = $(this).siblings(".card-title").text();
       $(".comment-modal-title").text(articleTitle);
 
       $.ajax({
-        url: "/articles/" + id,
-        method: "get",
-      }).then(function(response) {
-        var commentArray = response.comments;
-        comments = [];
-
-        $.when(
-          commentArray.forEach(function(comment){
-            $.get("/comment/" + comment, function(data) {
-              comments.push(data);
-            })
-          }
-        )).then(function() {
-          comments.forEach(function(comment) {
+        url: "/comment/" + id,
+        method: 'GET'
+      }).then(function(results) {
+        console.log(results);
+          results.forEach(function(comment) {
             var commentContainer = $("<div>").addClass("comment-container");
             var commentBody = $("<p>").text(comment.body);
             var commentAuthor = $("<small>").text("By: " + comment.createdBy);
@@ -133,12 +105,11 @@
             commentContainer.append(commentBody, commentAuthor, commentDate, commentDelete);
             $(".comment-table").append(commentContainer);
           })
+          $("#article-comment-modal").modal("show");
         })
 
-        $("#article-comment-modal").modal("show");
-      })
-
-    });
+        
+      });
 
     $("body").on("click", "#submit-comment" , function(){
 

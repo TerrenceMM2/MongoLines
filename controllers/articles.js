@@ -45,12 +45,8 @@ module.exports = {
                 });
 
                 Article.create(results).then(function (data) {
-                    res.locals.metaTags = {
-                        title: "MongoLines | Articles"
-                    };
-                    res.status(200).render("results", {
-                        data: data,
-                        count: results.length
+                    res.status(200).json({
+                        count: data.length
                     });
                 }).catch(function (err) {
                     res.status(500).json(err);

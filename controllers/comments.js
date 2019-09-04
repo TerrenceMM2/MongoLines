@@ -1,32 +1,46 @@
 var Comment = require('../models/Comment');
 var Article = require('../models/Article');
-var cheerio = require("cheerio");
-var axios = require("axios");
+var moment = require('moment');
 
 module.exports = {
     all: function (req, res) {
-        Comment.find({}).then(function (data) {
+        Comment.find({}).lean().then(function (data) {
+            data.forEach((obj) => {
+                obj.createdAt = moment(obj.createdAt, "YYYY-mm-ddTHH:MM:ssZ").format("dddd, MMMM Do, YYYY @ h:mm A");
+            });
             res.json(data).status(200);
-            // res.render("comment", {
-            //     data
-            // });
         }).catch(function (err) {
             res.status(500).json(err);
         })
     },
     get: function (req, res) {
-        Comment.findById(req.params.id).then(function(data){
-            res.json(data).status(200);
+        // Find all comments for a given article.
+        // Source: https://stackoverflow.com/questions/8303900/mongodb-mongoose-findmany-find-all-documents-with-ids-listed-in-array
+        Article.findById(req.params.id).then(function (data) {
+            Comment.find({"_id": {
+                $in: data.comments
+            }}).lean().then(function(results) {
+                results.forEach((obj) => {
+                    obj.createdAt = moment(obj.createdAt, "YYYY-mm-ddTHH:MM:ssZ").format("dddd, MMMM Do, YYYY @ h:mm A");
+                });
+                res.status(200).json(results);
+            })
         }).catch(function (err) {
             res.status(500).json(err);
-        })
+        });
     },
     comment: function (req, res) {
         Comment.create({
             body: req.body.body,
             createdBy: req.body.createdBy
-        }).then(function (commentData){
-            return Article.findByIdAndUpdate(req.params.id, {$push: { comments: commentData.id }}, { new: true });
+        }).then(function (commentData) {
+            return Article.findByIdAndUpdate(req.params.id, {
+                $push: {
+                    comments: commentData.id
+                }
+            }, {
+                new: true
+            });
         }).then(function (articleData) {
             res.json(articleData);
         }).catch(function (err) {
@@ -34,6 +48,14 @@ module.exports = {
         })
     },
     delete: function (req, res) {
-
+        Comment.deleteOne({
+                _id : req.body.data
+        }).then(function (data) {
+            console.log(data);
+            res.status(200).json(data);
+        })
+        .catch(function (err) {
+            console.log(err)
+        });
     }
 }
