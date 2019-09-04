@@ -31,8 +31,8 @@ module.exports = {
     },
     comment: function (req, res) {
         Comment.create({
-            body: req.body.body,
-            createdBy: req.body.createdBy
+            body: req.body.commentBody,
+            createdBy: req.body.commentAuthor
         }).then(function (commentData) {
             return Article.findByIdAndUpdate(req.params.id, {
                 $push: {
@@ -49,13 +49,13 @@ module.exports = {
     },
     delete: function (req, res) {
         Comment.deleteOne({
-                _id : req.body.data
+                _id : req.params.id
         }).then(function (data) {
-            console.log(data);
             res.status(200).json(data);
         })
         .catch(function (err) {
-            console.log(err)
+            console.log(err);
+            res.json(err).status(500);
         });
     }
 }

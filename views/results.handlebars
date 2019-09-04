@@ -47,7 +47,7 @@
         <p class="card-text">{{summary}}</p>
         <a href={{articleUrl}} class="btn btn-primary" target="_blank">Read</a>
         <button data-id="{{_id}}" class="delete-article btn btn-primary">Delete</button>
-        <button data-id="{{_id}}" class="comment-article btn btn-primary" role="button">Comment</a>
+        <button data-id="{{_id}}" class="comment-article btn btn-primary" role="button">Comments</a>
       </div>
     </div>
     {{/each}}
@@ -77,31 +77,32 @@
           data: id
         }
       }).then(function(response) {
-        console.log(response);
         window.location.href = "/articles";
       })
 
     });
 
-    $("body").on("click", ".comment-article" , function(){
+    $("body").on("click", ".comment-article" , function(event){
+
+      event.preventDefault();
 
       $(".comment-table").empty();
 
       var id = $(this).attr("data-id");
       var articleTitle = $(this).siblings(".card-title").text();
       $(".comment-modal-title").text(articleTitle);
+      $("#submit-comment").attr("data-id", id)
 
       $.ajax({
         url: "/comment/" + id,
         method: 'GET'
       }).then(function(results) {
-        console.log(results);
           results.forEach(function(comment) {
             var commentContainer = $("<div>").addClass("comment-container");
             var commentBody = $("<p>").text(comment.body);
             var commentAuthor = $("<small>").text("By: " + comment.createdBy);
-            var commentDate = $("<small>").text(" @ " + comment.createdAt);
-            var commentDelete = $("<i>").addClass("fas fa-trash-alt float-right").attr("data-id", comment._id);
+            var commentDate = $("<small>").text(" on " + comment.createdAt);
+            var commentDelete = $("<i>").addClass("fas fa-trash-alt float-right").attr({"data-id": comment._id, "parent-id": id});
             commentContainer.append(commentBody, commentAuthor, commentDate, commentDelete);
             $(".comment-table").append(commentContainer);
           })
@@ -111,7 +112,9 @@
         
       });
 
-    $("body").on("click", "#submit-comment" , function(){
+    $("body").on("click", "#submit-comment" , function(event){
+
+      event.preventDefault();
 
       var id = $(this).attr("data-id");
       var commentBody = $("#comment-body").val().trim();
@@ -121,12 +124,44 @@
         url: "/comment/" + id,
         method: "POST",
         data: {
-          data: id
+          commentBody,
+          commentAuthor
         }
-      }).then(function(response) {
-        window.location.href = "/articles";
+      }).then(function(results) {
+        $(".comment-table").empty();
+        $.ajax({
+            url: "/comment/" + id,
+            method: 'GET'
+        }).then(function(results) {
+            results.forEach(function(comment) {
+              var commentContainer = $("<div>").addClass("comment-container");
+              var commentBody = $("<p>").text(comment.body);
+              var commentAuthor = $("<small>").text("By: " + comment.createdBy);
+              var commentDate = $("<small>").text(" on " + comment.createdAt);
+              var commentDelete = $("<i>").addClass("fas fa-trash-alt float-right").attr({"data-id": comment._id, "parent-id": id});
+              commentContainer.append(commentBody, commentAuthor, commentDate, commentDelete);
+              $(".comment-table").append(commentContainer);
+            })
+        })
+        $("#comment-body").val("");
+        $("#comment-author").val("");
       })
 
+    });
+
+    $("body").on("click", "svg" , function(){
+
+      var id = $(this).attr("data-id");
+      var parentId = $(this).attr("parent-id");
+
+      $.ajax({
+        url: "/comment/" + id,
+        method: "DELETE",
+        data: { id }, 
+      });
+
+      $(this).parent(".comment-container").remove();
+      
     });
 
   })
