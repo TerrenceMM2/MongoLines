@@ -17,7 +17,7 @@ module.exports = {
         // Find all comments for a given article.
         // Source: https://stackoverflow.com/questions/8303900/mongodb-mongoose-findmany-find-all-documents-with-ids-listed-in-array
         article.findById(req.params.id).then(function (data) {
-            Comment.find({"_id": {
+            comment.find({"_id": {
                 $in: data.comments
             }}).lean().then(function(results) {
                 results.forEach((obj) => {
@@ -34,7 +34,7 @@ module.exports = {
             body: req.body.commentBody,
             createdBy: req.body.commentAuthor
         }).then(function (commentData) {
-            return Article.findByIdAndUpdate(req.params.id, {
+            return article.findByIdAndUpdate(req.params.id, {
                 $push: {
                     comments: commentData.id
                 }

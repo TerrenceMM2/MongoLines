@@ -44,7 +44,7 @@ module.exports = {
                     });
                 });
 
-                Article.create(results).then(function (data) {
+                article.create(results).then(function (data) {
                     res.status(200).json({
                         count: data.length
                     });
@@ -61,7 +61,7 @@ module.exports = {
         article.deleteOne({
                 "_id": req.body.data
             }).then(() => {
-                Article.find({});
+                article.find({});
             })
             .then(function (data) {
                 res.render("results", {
