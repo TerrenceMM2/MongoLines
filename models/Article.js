@@ -11,10 +11,10 @@ var ArticleSchema = new Schema ({
     photoUrl: String,
     comments: [{
         type: Schema.Types.ObjectId,
-        ref: "Comment"
+        ref: "comment"
       }]
 });
 
-var Article = mongoose.model("Article", ArticleSchema);
+var article = mongoose.model("article", ArticleSchema);
 
-module.exports = Article;
+module.exports = article;

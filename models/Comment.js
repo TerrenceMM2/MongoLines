@@ -7,6 +7,6 @@ var CommentSchema = new Schema ({
     createdAt: { type: Date, default: Date.now },
 });
 
-var Comment = mongoose.model("Comment", CommentSchema);
+var comment = mongoose.model("comment", CommentSchema);
 
-module.exports = Comment;
+module.exports = comment;
