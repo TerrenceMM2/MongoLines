@@ -1,5 +1,5 @@
-var Comment = require('../models/Comment');
-var Article = require('../models/Article');
+var Comment = require('../models/comment');
+var Article = require('../models/article');
 var moment = require('moment');
 
 module.exports = {

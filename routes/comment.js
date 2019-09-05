@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var commentController = require("../controllers/comments");
+var commentController = require("../controllers/Comments");
 
 router.get('/', commentController.all);
 router.delete('/:id', commentController.delete);

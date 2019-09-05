@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var articleController = require("../controllers/articles");
+var articleController = require("../controllers/Articles");
 
 router.get('/', articleController.get);
 router.get('/fetch', articleController.fetch);

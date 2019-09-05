@@ -1,4 +1,4 @@
-var Article = require('../models/Article');
+var Article = require('../models/article');
 var cheerio = require("cheerio");
 var axios = require("axios");
 
