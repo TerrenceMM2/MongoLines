@@ -1,10 +1,10 @@
-var Comment = require('../models/comment');
-var Article = require('../models/article');
+var comment = require('../models/comment');
+var article = require('../models/article');
 var moment = require('moment');
 
 module.exports = {
     all: function (req, res) {
-        Comment.find({}).lean().then(function (data) {
+        comment.find({}).lean().then(function (data) {
             data.forEach((obj) => {
                 obj.createdAt = moment(obj.createdAt, "YYYY-mm-ddTHH:MM:ssZ").format("dddd, MMMM Do, YYYY @ h:mm A");
             });
@@ -16,7 +16,7 @@ module.exports = {
     get: function (req, res) {
         // Find all comments for a given article.
         // Source: https://stackoverflow.com/questions/8303900/mongodb-mongoose-findmany-find-all-documents-with-ids-listed-in-array
-        Article.findById(req.params.id).then(function (data) {
+        article.findById(req.params.id).then(function (data) {
             Comment.find({"_id": {
                 $in: data.comments
             }}).lean().then(function(results) {
@@ -30,7 +30,7 @@ module.exports = {
         });
     },
     comment: function (req, res) {
-        Comment.create({
+        comment.create({
             body: req.body.commentBody,
             createdBy: req.body.commentAuthor
         }).then(function (commentData) {
@@ -48,7 +48,7 @@ module.exports = {
         })
     },
     delete: function (req, res) {
-        Comment.deleteOne({
+        comment.deleteOne({
                 _id : req.params.id
         }).then(function (data) {
             res.status(200).json(data);

@@ -1,10 +1,10 @@
-var Article = require('../models/article');
+var article = require('../models/article');
 var cheerio = require("cheerio");
 var axios = require("axios");
 
 module.exports = {
     get: function(req, res) {
-        Article.find({}).then(function (data) {
+        article.find({}).then(function (data) {
             res.locals.metaTags = {
                 title: "MongoLines | Articles"
             };
@@ -16,14 +16,14 @@ module.exports = {
         })
     },
     find: function(req, res) {
-        Article.findById(req.params.id).then(function(data) {
+        article.findById(req.params.id).then(function(data) {
             res.json(data).status(200);
         }).catch(function(err) {
             res.status(500).send(err);
         })
     },
     fetch: function(req, res) {
-        Article.deleteMany({}).then(function (data) {
+        article.deleteMany({}).then(function (data) {
             axios.get("https://www.newyorker.com/").then(function (response) {
 
                 var $ = cheerio.load(response.data);
@@ -58,7 +58,7 @@ module.exports = {
         })
     },
     delete: function(req, res) {
-        Article.deleteOne({
+        article.deleteOne({
                 "_id": req.body.data
             }).then(() => {
                 Article.find({});
