@@ -16,9 +16,11 @@ app.set("view engine", "handlebars");
 
 app.set("views", "./views");
 
+// Setting a default route of "/" and using index.js for route lookup.
 app.use("/", routes);
 app.use(require("./routes/index.js"));
 
+// Adding useNewUrlParser and useCreateIndex to remove deprecation warnings.
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true }, );
 
 app.listen(PORT, function () {

@@ -9,6 +9,7 @@ var ArticleSchema = new Schema ({
       unique: true
     },
     photoUrl: String,
+    // Will store comment collection ids into an array.
     comments: [{
         type: Schema.Types.ObjectId,
         ref: "comment"

@@ -2,6 +2,7 @@
     <div class="jumbotron">
         <h1 class="display-4">MongoLines</h1>
         <p class="lead">Scraping today's headlines in Mongo fashion</p>
+        <small>Courtesy of <a href="https://www.newyorker.com/" alt="Link to The New Yorker" target="_blank">The New Yorker</a></small>
         <hr class="my-4">
         <button id="fetch-articles" class="btn btn-primary" role="button">
             <div id="fetch-spinner" class="spinner-border spinner-border-sm text-light" role="status">
@@ -35,8 +36,10 @@
   <script>
       $(document).ready(function() {
 
+          {{!-- "Hides the spinner icon when the page loads." --}}
           $("#fetch-spinner").hide();
 
+          {{!-- "When the 'fetch' button is click, the spinner icon appears for the duration of the AJAX call." --}}
           $("#fetch-articles").on("click", function() {
               $("#fetch-spinner").show();
               $("#fetch-label").hide();
@@ -44,6 +47,7 @@
                   url: "/articles/fetch",
                   method: "GET"
               }).then(function(results) {
+                {{!-- "Then a modal will show how many articles were scraped and hide the spinner icon" --}}
                 $("#count").text(results.count);
                 $("#article-count-modal").modal("show");
                 $("#fetch-spinner").hide();

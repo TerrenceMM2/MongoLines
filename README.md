@@ -1,11 +1,11 @@
 # coursework14-news-scrape
-Vanderbilt Coding Boot Camp - Coursework 14 - News Scrape (MongoDB/Mongoose/Cheerio)
+Vanderbilt Coding Boot Camp - Coursework 14 - News Scrape (MongoDB/Mongoose/Cheerio)  
 Live Link: https://mongolines.herokuapp.com
 
 - - -
 
 ## Purpose  
-MongoLines pulls the latest headlines and allows user to quickly view and add/view comments. For this app, the https://newyorker.com is being scraped.
+MongoLines pulls the latest headlines and allows user to quickly view and add/view comments. For this app, https://newyorker.com is being scraped. The purpose of this app is to demonstrate the use of NPM Cheerio for web scraping, MVC app structuring, and utilizing MongoDB/Mongoose to store and relate data ("collections").
 
 - - - 
 
@@ -47,13 +47,24 @@ To get started ...
 6. [moment](https://momentjs.com/)
 7. [axios](https://www.npmjs.com/package/axios)
 8. [cheerio](https://www.npmjs.com/package/cheerio)
+9. [Bootstrap](https://getbootstrap.com/)
+10. [jQuery](https://jquery.com/)
+11. [Font Awesome](https://fontawesome.com/)
+12. [Google Fonts](https://fonts.google.com/)
 
 - - -
 
-### Authors
-* **Terrence Mahnken** - [LinkedIn](https://www.linkedin.com/in/terrencemahnken/) | [Twitter](https://twitter.com/TerrenceMahnken)
+### Author
+* **Terrence Mahnken** - [LinkedIn](https://www.linkedin.com/in/terrencemahnken/) | [Twitter](https://twitter.com/TerrenceMahnken) | [Personal Portfolio](https://terrencemm2.github.io/)
 
 - - -
 
-#### Sources
-https://dev.to/bananabrann/express-routing-for-noobs-pretend-youre-a-computer-walkthrough-1ma4
+#### Helpful Sources
+MVC structuring for a Node/Express app:  
+https://dev.to/bananabrann/express-routing-for-noobs-pretend-youre-a-computer-walkthrough-1ma4  
+  
+Using Mongoose to find all collections from a given array of IDs:  
+https://stackoverflow.com/questions/8303900/mongodb-mongoose-findmany-find-all-documents-with-ids-listed-in-array  
+  
+Convert Mongoose BSON to JSON objects:  
+https://stackoverflow.com/questions/9952649/convert-mongoose-docs-to-json  

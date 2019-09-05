@@ -4,8 +4,12 @@ var moment = require('moment');
 
 module.exports = {
     all: function (req, res) {
+        // Find all comments.
+        // .lean() will convert the Mongoose BSON to JSON to be used by Moment function.
         comment.find({}).lean().then(function (data) {
             data.forEach((obj) => {
+                // Converts createAt value to an easy-to-read format.
+                // In the moment() method, specifying the string to be formatted (obj.createdAt) and what the format of that string currently is (the subsequent string).
                 obj.createdAt = moment(obj.createdAt, "YYYY-mm-ddTHH:MM:ssZ").format("dddd, MMMM Do, YYYY @ h:mm A");
             });
             res.json(data).status(200);
@@ -30,10 +34,12 @@ module.exports = {
         });
     },
     comment: function (req, res) {
+        // Creates a new comment based on the data being based from the front-end (commentBody and commentAuthor).
         comment.create({
             body: req.body.commentBody,
             createdBy: req.body.commentAuthor
         }).then(function (commentData) {
+            // Will update the associated article's comments array with the newly create comment's ID.
             return article.findByIdAndUpdate(req.params.id, {
                 $push: {
                     comments: commentData.id
@@ -48,6 +54,7 @@ module.exports = {
         })
     },
     delete: function (req, res) {
+        // Will delete a comment based on ID.
         comment.deleteOne({
                 _id : req.params.id
         }).then(function (data) {

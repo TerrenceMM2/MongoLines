@@ -1,6 +1,7 @@
 <div class="jumbotron jumbotron-mod">
   <h1 class="display-4">MongoLines</h1>
   <p class="lead">Scraping today's headlines in Mongo fashion</p>
+  <small>Courtesy of <a href="https://www.newyorker.com/" alt="Link to The New Yorker" target="_blank">The New Yorker</a></small>
   <hr class="my-4">
 </div>
 
@@ -60,12 +61,14 @@
 
     var images = $(".card-img-top");
 
+    {{!-- "If an incoming image's size is equal to 72, it will format the card image different from the other images. " --}}
     for (var i = 0; i < images.length; i++) {
       if (images[i].width === 72) {
         $(images[i]).addClass("card-img-top-mod");
       };
     };
 
+    {{!-- "Deletes an article and reloads the page." --}}
     $("body").on("click", ".delete-article" , function(){
 
       var id = $(this).attr("data-id");
@@ -82,6 +85,7 @@
 
     });
 
+    {{!-- "A modal will display in order view and add new comments." --}}
     $("body").on("click", ".comment-article" , function(event){
 
       event.preventDefault();
@@ -112,6 +116,7 @@
         
       });
 
+      {{!-- "Posts a new comment and resets the form." --}}
     $("body").on("click", "#submit-comment" , function(event){
 
       event.preventDefault();
@@ -149,6 +154,7 @@
 
     });
 
+    {{!-- "Deletes a comment when the trashcan icon is clicked." --}}
     $("body").on("click", "svg" , function(){
 
       var id = $(this).attr("data-id");
