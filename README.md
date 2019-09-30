@@ -22,6 +22,11 @@ MongoLines pulls the latest headlines and allows user to quickly view and add/vi
 
 - - - 
 
+## Screenshot
+![MongoLines Screenshot](../media/mongolines-screenshot.png?raw=true)
+
+- - -
+
 ### Contribute  
 
 To get started ...
