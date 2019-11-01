@@ -34,11 +34,11 @@ To get started ...
 
 - **Option 1** - 🍴 Fork this repo!
 
-- **Option 2** - 👯 Clone this repo to your local machine using `https://github.com/TerrenceMM2/coursework14-news-scrape.git`
+- **Option 2** - 👯 Clone this repo to your local machine using `https://github.com/TerrenceMM2/MongoLines.git`
 
 **Step 2** - **HACK AWAY!** 🔨🔨🔨
 
-**Step 3** - 🔃 Create a new pull request using [https://github.com/TerrenceMM2/coursework14-news-scrape/compare](https://github.com/TerrenceMM2/coursework14-news-scrape/compare)
+**Step 3** - 🔃 Create a new pull request using [https://github.com/TerrenceMM2/MongoLines/compare](https://github.com/TerrenceMM2/MongoLines/compare)
 
 - - -
 
