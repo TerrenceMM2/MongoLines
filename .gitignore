@@ -1,3 +1,5 @@
 node_modules
 1-MONGODB-URI.jpg
 homework_instructions.md
+package-lock.json
+.env

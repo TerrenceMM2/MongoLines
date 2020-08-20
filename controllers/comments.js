@@ -1,12 +1,12 @@
-var comment = require('../models/comment');
-var article = require('../models/article');
+var Comment = require('../models/Comment');
+var Article = require('../models/Article');
 var moment = require('moment');
 
 module.exports = {
     all: function (req, res) {
         // Find all comments.
         // .lean() will convert the Mongoose BSON to JSON to be used by Moment function.
-        comment.find({}).lean().then(function (data) {
+        Comment.find({}).lean().then(function (data) {
             data.forEach((obj) => {
                 // Converts createAt value to an easy-to-read format.
                 // In the moment() method, specifying the string to be formatted (obj.createdAt) and what the format of that string currently is (the subsequent string).
@@ -20,8 +20,8 @@ module.exports = {
     get: function (req, res) {
         // Find all comments for a given article.
         // Source: https://stackoverflow.com/questions/8303900/mongodb-mongoose-findmany-find-all-documents-with-ids-listed-in-array
-        article.findById(req.params.id).then(function (data) {
-            comment.find({"_id": {
+        Article.findById(req.params.id).then(function (data) {
+            Comment.find({"_id": {
                 $in: data.comments
             }}).lean().then(function(results) {
                 results.forEach((obj) => {
@@ -35,12 +35,12 @@ module.exports = {
     },
     comment: function (req, res) {
         // Creates a new comment based on the data being based from the front-end (commentBody and commentAuthor).
-        comment.create({
+        Comment.create({
             body: req.body.commentBody,
             createdBy: req.body.commentAuthor
         }).then(function (commentData) {
             // Will update the associated article's comments array with the newly create comment's ID.
-            return article.findByIdAndUpdate(req.params.id, {
+            return Article.findByIdAndUpdate(req.params.id, {
                 $push: {
                     comments: commentData.id
                 }
@@ -55,7 +55,7 @@ module.exports = {
     },
     delete: function (req, res) {
         // Will delete a comment based on ID.
-        comment.deleteOne({
+        Comment.deleteOne({
                 _id : req.params.id
         }).then(function (data) {
             res.status(200).json(data);

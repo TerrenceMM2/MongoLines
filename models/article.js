@@ -1,21 +1,20 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+var dynamoose = require("dynamoose");
+var Comment = require('./Comment');
+var Schema = dynamoose.Schema;
 
 var ArticleSchema = new Schema ({
+    id: String,
     title: String,
     summary: String,
-    articleUrl: {
-      type: String,
-      unique: true
-    },
+    articleUrl: String,
     photoUrl: String,
     // Will store comment collection ids into an array.
-    comments: [{
-        type: Schema.Types.ObjectId,
-        ref: "comment"
-      }]
+    comments: {
+      "type": Set,
+      "schema": [Comment]
+    }
 });
 
-var article = mongoose.model("article", ArticleSchema);
+var Article = dynamoose.model("MongoLines_Articles", ArticleSchema);
 
-module.exports = article;
+module.exports = Article;
