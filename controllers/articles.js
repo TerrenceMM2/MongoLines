@@ -2,7 +2,6 @@ var Article = require('../models/Article');
 var cheerio = require("cheerio");
 var axios = require("axios");
 var { v4: uuidv4 } = require('uuid');
-var fs = require('fs')
 
 module.exports = {
     get: function(req, res) {
@@ -78,21 +77,19 @@ module.exports = {
             }
         })
     },
-    delete: function(req, res) {
-        // Deletes articles based on id.
-        Article.delete({
-                "id": req.body.data
-            }).then(() => {
-                // Find all articles now that the previous article has been deleted.
-                Article.find({});
+    delete: async (req, res) => {
+        try {
+            // Deletes articles based on id.
+            await Article.delete(req.body.data);
+            await Article.scan().exec((err, data) => {
+                try {
+                    res.render("results", {data});
+                } catch {
+                    res.status(500).send(err);
+                }
             })
-            .then(function (data) {
-                res.render("results", {
-                    data
-                });
-            })
-            .catch(function (err) {
-                console.log(err)
-            })
+        } catch (err) {
+            res.status(500).send(err);
+        }
     }
 };
