@@ -1,6 +1,8 @@
 var Article = require('../models/Article');
 var cheerio = require("cheerio");
 var axios = require("axios");
+var { v4: uuidv4 } = require('uuid');
+var fs = require('fs')
 
 module.exports = {
     get: function(req, res) {
@@ -26,42 +28,54 @@ module.exports = {
     },
     fetch: (req, res) => {
         // Will delete all articles from the DB first (in order to avoid duplicates).
-        Article.get(100, (err, data) => {
+        Article.scan().exec((err, data) => {
             // Then, perform a GET Axios call to the site.
-            if (err) {
+            try {
+                if (data.length > 0) {
+                    data.forEach(article => {
+                        Article.delete(article.id);
+                    });
+                }
+
+                var results = [];
+                
+                getArticles = async () => {
+                    try {
+                        var response = await axios.get("https://www.newyorker.com/")
+                        var $ = cheerio.load(response.data);
+
+                        await $(".Card__content___2_jDO").each((i, element) => {
+    
+                            var title = $(element).find(".Card__hed___31cLY").text();
+                            var summary = $(element).find(".Card__dek___29Iu1").text();
+                            var articleUrl = $(element).find("a:nth-child(2)").attr("href");
+                            var photoUrl = $(element).find("img").attr("src");
+                            var uuid = uuidv4();
+    
+                            // For each result based on the class, an object will be pushed to a local array.
+                            var result = {
+                                id: uuid,
+                                title,
+                                summary,
+                                articleUrl: "https://www.newyorker.com" + articleUrl,
+                                photoUrl
+                            };
+    
+                            results.push(result);
+                            Article.create(result);
+                        });
+
+                        res.status(200).json({
+                            count: results.length
+                        });
+                    } catch (err) {
+                        res.status(500).send(err);
+                    }
+                };
+                getArticles();
+            } catch (err) {
                 res.status(500).send(err);
-            } else {
-                res.status(200).send(data);
             }
-            // axios.get("https://www.newyorker.com/").then(function (response) {
-
-            //     var $ = cheerio.load(response.data);
-            //     var results = [];
-
-            //     // For each result based on the class, an object will be pushed to a local array.
-            //     $(".Card__content___2_jDO").each(function (i, element) {
-
-            //         var title = $(element).find(".Card__hed___31cLY").text();
-            //         var summary = $(element).find(".Card__dek___29Iu1").text();
-            //         var articleUrl = $(element).find("a:nth-child(2)").attr("href");
-            //         var photoUrl = $(element).find("img").attr("src");
-
-            //         results.push({
-            //             title,
-            //             summary,
-            //             articleUrl: "https://www.newyorker.com" + articleUrl,
-            //             photoUrl
-            //         });
-            //     });
-            //     console.log(results)
-            //     // Finally, the results array will be created in the database and the number of created records will be sent back to the front-end.
-            //     Article.batchPut(results).then(function (data) {
-            //         res.status(200).json({
-            //             count: data.length
-            //         });
-            //     }).catch(function (err) {
-            //         res.status(500).json(err);
-            //     });
         })
     },
     delete: function(req, res) {
