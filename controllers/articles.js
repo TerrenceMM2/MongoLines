@@ -19,13 +19,14 @@ module.exports = {
             }
         })
     },
-    find: function(req, res) {
-        // Finds all articles based on ID.
-        Article.get(req.params.id).then(function(data) {
+    find: async (req, res) => {
+        try {
+            // Finds all articles based on ID.
+            const data = await Article.get(req.params.id)
             res.json(data).status(200);
-        }).catch(function(err) {
+        } catch (err) {
             res.status(500).send(err);
-        })
+        }
     },
     fetch: (req, res) => {
         // Will delete all articles from the DB first (in order to avoid duplicates).
