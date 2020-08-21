@@ -4,17 +4,19 @@ var axios = require("axios");
 var { v4: uuidv4 } = require('uuid');
 
 module.exports = {
-    get: function(req, res) {
+    get: (req, res) => {
         // Finds all articles
-        Article.get({}).then(function (data) {
-            res.locals.metaTags = {
-                title: "MongoLines | Articles"
-            };
-            res.render("results", {
-                data
-            });
-        }).catch(function (err) {
-            res.status(500).send(err);
+        Article.scan().exec((err, data) => {
+            try {
+                res.locals.metaTags = {
+                    title: "MongoLines | Articles"
+                };
+                res.status(200).render("results", {
+                    data
+                });
+            } catch (err) {
+                res.status(500).send(err);
+            }
         })
     },
     find: function(req, res) {
@@ -83,7 +85,7 @@ module.exports = {
             await Article.delete(req.body.data);
             await Article.scan().exec((err, data) => {
                 try {
-                    res.render("results", {data});
+                    res.status(200).render("results", {data});
                 } catch {
                     res.status(500).send(err);
                 }
