@@ -1,5 +1,5 @@
-const Comment = require('../models/Comment');
-const Article = require('../models/Article');
+const Comment = require('../models/comment');
+const Article = require('../models/article');
 const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 

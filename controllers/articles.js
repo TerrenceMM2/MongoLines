@@ -1,5 +1,5 @@
-const Article = require('../models/Article');
-const Comment = require('../models/Comment');
+const Article = require('../models/article');
+const Comment = require('../models/comment');
 const cheerio = require("cheerio");
 const axios = require("axios");
 const { v4: uuidv4 } = require('uuid');

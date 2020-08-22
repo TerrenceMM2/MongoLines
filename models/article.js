@@ -1,5 +1,4 @@
 var dynamoose = require("dynamoose");
-var Comment = require('./Comment');
 var Schema = dynamoose.Schema;
 
 var ArticleSchema = new Schema ({
