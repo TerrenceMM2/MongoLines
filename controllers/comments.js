@@ -22,11 +22,15 @@ module.exports = {
         try {
             // Find all comments for a given article.
             const articleData = await Article.get(req.params.id);
-            const commentData = await Comment.batchGet(articleData.comments);
-            await commentData.forEach((comment) => {
+            if (articleData.comments.length > 0) {
+                const commentData = await Comment.batchGet(articleData.comments);
+                await commentData.forEach((comment) => {
                     comment.createdAt = moment(comment.createdAt).format("dddd, MMMM Do, YYYY @ h:mm A");
-            })
-            res.status(200).json(commentData);
+                })
+                res.status(200).json(commentData);
+            } else {
+                res.status(200).send([]);
+            }
         } catch (err) {
             res.status(500).json(err);
         }
@@ -50,7 +54,7 @@ module.exports = {
     delete: async (req, res) => {
         // Will delete a comment based on ID.
         try {
-            const data = await Comment.deleteOne(req.params.id);
+            const data = await Comment.delete(req.params.id);
             res.status(200).json(data);
         } catch (err) {
             res.json(err).status(500);

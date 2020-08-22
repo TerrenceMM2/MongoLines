@@ -105,7 +105,6 @@ $(document).ready(function () {
     $("body").on("click", "svg", function () {
 
         var id = $(this).attr("data-id");
-        var parentId = $(this).attr("parent-id");
 
         $.ajax({
             url: "/comment/" + id,
