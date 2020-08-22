@@ -10,8 +10,11 @@ var ArticleSchema = new Schema ({
     photoUrl: String,
     // Will store comment collection ids into an array.
     comments: {
-      "type": Set,
-      "schema": [Comment]
+      type: Array,
+      default: [],
+      schema: [{
+        type: String
+      }]
     }
 });
 
